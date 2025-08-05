@@ -124,6 +124,7 @@ function rhe_flat_allotment_list_rst_estate($flat_type_id = 0, $flat_status_id =
 			// }
 
 
+			
 
 			if(trim($data->floor) == 'Ground') {
 				$floor = 'Ground Flr';	
@@ -144,6 +145,8 @@ function rhe_flat_allotment_list_rst_estate($flat_type_id = 0, $flat_status_id =
 				$floor = '<b>7th Flr</b>';	
 			}else if(trim($data->floor) == 'Eighth') {
 				$floor = '<b>8th Flr</b>';	
+			}else if(trim($data->floor) == 'Ninth') {
+				$floor = '<b>9th Flr</b>';	   //added by dg 9th floor 05-08-2025
 			}else if(trim($data->floor) == 'Top') {
 				$floor = '<b>Top Flr</b>';	
 			}

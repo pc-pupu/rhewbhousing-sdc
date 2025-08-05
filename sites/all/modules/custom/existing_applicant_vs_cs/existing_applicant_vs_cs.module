@@ -1,0 +1,41 @@
+<?php
+// Done by Subham dt.28-05-2025
+function existing_applicant_vs_cs_menu() {
+  $items = array();
+
+  $items['legacy-vs-cs'] = array(
+    'title' => 'Form For Existing Applicant VS CS',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('existing_applicant_vs_cs_form'),
+    'file' => 'existing_applicant_vs_cs_form.inc',
+    'access arguments' => array('access content'),
+	);
+
+  // $items['flat-wise-user-info'] = array(
+  //   'title' => 'Form For User Tagging',
+  //   'page callback' => 'flat_wise_user_info',
+  //   // 'page arguments' => array(1,2),
+  //   'file' => 'flat_wise_user_info.inc',
+  //   'access arguments' => array('access content'),
+	// );
+  
+  // $items['flat-wise-user-info-details'] = array(
+  //   'title' => 'Form For User Tagging',
+  //   'page callback' => 'drupal_get_form',
+  //   'page arguments' => array('flat_wise_user_details',1),
+  //   'file' => 'flat_wise_user_info.inc',
+  //   'access arguments' => array('access content'),
+	// );
+
+  return $items;
+}
+
+function existing_applicant_vs_cs_permission() {
+  return array(
+    'administer User Tagging' => array(
+      'title' => t('administer User Tagging'),
+      'description' => t('perform administer for User Tagging.')
+    )
+  );	
+}
+

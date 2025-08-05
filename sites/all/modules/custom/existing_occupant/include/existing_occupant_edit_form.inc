@@ -235,7 +235,7 @@ function existing_occupant_edit_form($form, &$form_state, $en_id = 0) {
         '#required' => TRUE,
         '#prefix' => '<div class="row"><div class="col-md-6"><div class="form-floating">',
         '#suffix' => '</div></div>',
-        '#element_validate' => array('element_validate_mobile'),
+        '#element_validate' => array('element_validate_mobile','mobile_no_validate_existing_occupant'), //added y dg 04-08-2025
         '#attributes' => array('id' => 'mobile_no','class'=>array('form-control')),
     );
     

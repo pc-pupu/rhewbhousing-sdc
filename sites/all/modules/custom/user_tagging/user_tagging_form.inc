@@ -244,8 +244,13 @@ function user_tagging_submit($form, &$form_state) {
     $form_data['applicant_name'] = trim($form_state['values']['applicant_name']);
     $form_data['mobile_no'] = trim($form_state['values']['mobile_no']);
     $form_data['email'] = trim($form_state['values']['email']);
+<<<<<<< HEAD
+    $form_data['identification_no'] = trim($form_state['values']['identification_no']);
+    //$form_data['dob'] = date('Y-m-d',strtotime($form_state['values']['dob']));  turned off by dg04-08-2025
+=======
     // $form_data['identification_no'] = trim($form_state['values']['identification_no']); // Turned off 24-07-2025 by Subham
     // $form_data['dob'] = date('Y-m-d',strtotime($form_state['values']['dob']));
+>>>>>>> e4a063e9e718eebaf74e54ec50c937b7c4be6f48
     $form_data['license_no'] = trim($form_state['values']['license_no']);
 
 
@@ -262,7 +267,7 @@ function user_tagging_submit($form, &$form_state) {
     $form_data['hrms_id'] = $user->name;
     $form_data['uid'] = $user->uid;
 
-    echo '<pre>'; print_r($form_data);die;
+    // echo '<pre>'; print_r($form_data);die;
     
     $chk_duplicate_data = db_select('housing_user_tagging', 'hut')
         ->fields('hut',array('flat_id'))

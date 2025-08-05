@@ -48,6 +48,8 @@ function get_estatewise_vacancy($allotment_type, $district_code = 0) {
 
 	// array('Ground' => 'Ground', 'First' => 'First', 'Second' => 'Second', 'Third' => 'Third','Fourth'=>'Fourth','Fifth'=>'Fifth','Sixth'=>'Sixth','Seventh'=>'Seventh','Eighth'=>'Eighth','Ninth'=>'Ninth','Tenth'=>'Tenth')
 
+	
+	/*//added by dg 9th floor 05-08-2025*/
 	if(!empty($allotment_type)) {
 		$result = db_query("SELECT t2.estate_id, t2.estate_name,
 		count(case when t1.floor = 'Ground' then t1.flat_id end) as floor_0,
@@ -59,6 +61,7 @@ function get_estatewise_vacancy($allotment_type, $district_code = 0) {
 		count(case when t1.floor = 'Sixth' then t1.flat_id end) as floor_6,
 		count(case when t1.floor = 'Seventh' then t1.flat_id end) as floor_7,
 		count(case when t1.floor = 'Eighth' then t1.flat_id end) as floor_8,
+		count(case when t1.floor = 'Ninth' then t1.flat_id end) as floor_9,  
 		count(case when t1.floor = 'Top' then t1.flat_id end) as floor_top
 
 		FROM housing_flat AS t1
