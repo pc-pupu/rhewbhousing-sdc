@@ -210,7 +210,7 @@ function special_recommendation_occupant_submit($form, &$form_state) {
     // insert housing_process_flow
     $process_flow_arr = array(
         'online_application_id' => $online_application_id,
-        'status_id' => 8, // status_id of housing_official_approved // Updated by Subham 22/11/2024
+        'status_id' => get_status_id('allotted'), // status_id of housing_official_approved // Updated by Subham 22/11/2024
         'created_at' => date('Y-m-d H:i:s'),
         'uid' => $user->uid,
         'short_code' =>'allotted'

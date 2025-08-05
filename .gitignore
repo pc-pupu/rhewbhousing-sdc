@@ -16,7 +16,7 @@ sites/all/modules/contrib
 sites/all/modules/custom/user_sso_login/composer/vendor
 
 # Ignore default text files
-# .htaccess
+.htaccess
 robots.txt
 /CHANGELOG.txt
 /COPYRIGHT.txt
@@ -28,7 +28,7 @@ robots.txt
 #sites/all/README.txt
 #sites/all/modules/README.txt
 #sites/all/themes/README.txt
-
+sites/all/libraries
 # Ignore everything but the "sites" folder ( for non core developer )
 web.config
 authorize.php
@@ -56,3 +56,14 @@ xmlrpc.php
 
 
 sites/all/modules/custom/rhe_allotment/old_work_backup
+.editorconfig
+.htaccess
+README.md
+clrcache.php
+curl.php.php
+error_404.html
+error_redirection.php
+htaccess_old
+info.php
+mailme.php
+sites/example.sites.php
