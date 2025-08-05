@@ -2,7 +2,7 @@
 
 function flat_wise_user_info($status =''){
     // list all request for user tagging
-	echo $status;
+	// echo $status;
     
 	$query = db_select('housing_user_tagging', 'hut');
     $query->fields('hut',array());
