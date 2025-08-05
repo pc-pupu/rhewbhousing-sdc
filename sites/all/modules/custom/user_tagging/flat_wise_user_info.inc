@@ -1,8 +1,8 @@
 <?php
 
-function flat_wise_user_info(){
+function flat_wise_user_info($status =''){
     // list all request for user tagging
-
+	// echo $status;
     
 	$query = db_select('housing_user_tagging', 'hut');
     $query->fields('hut',array());
@@ -44,9 +44,9 @@ function flat_wise_user_info(){
 
 			'hrms_id' => array('data' => 'HRMS ID'),
             'applicant_name' => array('data' => 'Occupant Name'),
-            'email' => array('data' => 'Email'),
-            'mobile_no' => array('data' => 'Mobile No'),
-			'identification_no' => array('data' => 'identification_no'),
+
+			'status' => array('data'=>'Status'),
+            'remarks' => array('data'=>'Remarks'),
 
             'details' => array('data' => 'Details'),
         );
@@ -54,9 +54,16 @@ function flat_wise_user_info(){
 		$rows =array();
 		$output = '';
 		$serialNumber = 1;
+
 		
 		while($data = $result->fetchObject()) {
             // print_r($data);die;
+			if($data->flag == 'pending'){
+				$flag = '<span style="color: #E97451;">'.ucwords($data->flag).'</span>';
+			}else{
+				$flag = '<span style="color: #228B22;">'.ucwords($data->flag).'</span>';
+			}
+
 			$fields = array();
       
 			$fields[] = $serialNumber;
@@ -66,10 +73,9 @@ function flat_wise_user_info(){
 			
 			$fields[] = $data->hrms_id;
             $fields[] = $data->applicant_name;
-			$fields[] = $data->email;
-			$fields[] = $data->mobile_no;
-			$fields[] = $data->identification_no;
-			
+
+			$fields[] = $flag;
+			$fields[] = $data->remarks;
 			$fields[] = l('Details','flat-wise-user-info-details/'.encrypt_url($data->flat_id),array('html'=>TRUE,'attributes'=> array('class'=>array('btn bg-success btn-sm px-4 rounded-pill text-white fw-bolder'))));
 
 			$serialNumber++;
@@ -132,45 +138,44 @@ function flat_wise_user_details($form, $form_state, $en_id = 0){
 	$result_tag = $query_tag->fetchObject();
 	// print_r($result_tag);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-	$license_no_tag = ($result_tag->license_no !='') ? $result_tag->license_no : 'N/A';
-
-=======
->>>>>>> 0cb717b8a54072318052f16c41c9f9bccf5211e2
-=======
 	$license_no_tag = ($result_tag->license_no !='') ? $result_tag->license_no : 'Not Available';
 
->>>>>>> master
+
 	// get user info by flat_id from draft table
 
 	$query_draft = db_select('housing_existing_occupant_draft','heod')->fields('heod',array())->condition('heod.flat_id', $flat_id)->execute();
 	$result_draft = $query_draft->fetchObject();
 	// print_r($result_draft); die;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-	$license_no_draft = ($result_draft->license_no !='') ? $result_draft->license_no : 'N/A';
-
-
-
-=======
->>>>>>> 0cb717b8a54072318052f16c41c9f9bccf5211e2
-=======
 	$license_no_draft = ($result_draft->license_no !='') ? $result_draft->license_no : 'Not Available';
 
-
-
->>>>>>> master
 	$flat_info = get_flat_info_by_id(encrypt_url($flat_id));
+
+
+	$tag_license_issue_date = ($result_tag->license_issue_date !='') ? date('d/m/Y',strtotime($result_tag->license_issue_date)) : 'Not Available';
+
+	$draft_license_issue_date = ($result_draft->license_issue_date !='') ? date('d/m/Y',strtotime($result_draft->license_issue_date)) : 'Not Available';
+
+
+	$tag_license_expiry_date = ($result_tag->license_expiry_date !='') ? date('d/m/Y',strtotime($result_tag->license_expiry_date)) : 'Not Available';
+
+	$draft_license_expiry_date = ($result_draft->license_expiry_date !='') ? date('d/m/Y',strtotime($result_draft->license_expiry_date)) : 'Not Available';
+
+	$draft_last_license_renewal_date = ($result_draft->last_license_renewal_date !='') ? date('d/m/Y',strtotime($result_draft->last_license_renewal_date)) : 'Not Available';
+
+
 
 	$display_output1 = '
 		    <div class="table-bottom">
 		        <table class="table table-list">
 					<tr>
-						<th style="border: 1px solid; border-color: white; background: none repeat scroll 0 0 #473a39;color:white;text-align: center;font-size: 18px;line-height: 24px; font-weight: normal;font-family: "Dosis",Arial,Verdana,serif;" class="first">Parameters</th>
-						<th style="border: 1px solid; border-color: white; background: none repeat scroll 0 0 #473a39;color:white;text-align: center;font-size: 18px;line-height: 24px; font-weight: normal;font-family: "Dosis",Arial,Verdana,serif;" class="first">Applicant Information</th>
-						<th style="border: 1px solid; border-color: white; background: none repeat scroll 0 0 #473a39;color:white;text-align: center;font-size: 18px;line-height: 24px; font-weight: normal;font-family: "Dosis",Arial,Verdana,serif;" class="first">Departmental Information</th>
+						<th style="border: 1px solid; border-color: white; background: none repeat scroll 0 0 #0a8bd6dc;color:white;text-align: center;font-size: 18px;line-height: 24px; font-weight: normal;font-family: "Dosis",Arial,Verdana,serif;" class="first">Parameters</th>
+						<th style="border: 1px solid; border-color: white; background: none repeat scroll 0 0 #0a8bd6dc;color:white;text-align: center;font-size: 18px;line-height: 24px; font-weight: normal;font-family: "Dosis",Arial,Verdana,serif;" class="first">Applicant Information</th>
+						<th style="border: 1px solid; border-color: white; background: none repeat scroll 0 0 #0a8bd6dc;color:white;text-align: center;font-size: 18px;line-height: 24px; font-weight: normal;font-family: "Dosis",Arial,Verdana,serif;" class="first">Departmental Information</th>
+					</tr>
+					<tr>
+						<td>Flat Information</td>
+						<td colspan="2" style="text-align: center;">'.$flat_info.'</td>
 					</tr>
 					<tr>
 						<td>Applicant Name </td>
@@ -178,7 +183,7 @@ function flat_wise_user_details($form, $form_state, $en_id = 0){
 						<td align="center">'.$result_draft->applicant_name.'</td> 
 					</tr>
 					<tr>
-						<td>HRMS </td>
+						<td>HRMS ID </td>
 						<td align="center">'.$result_tag->hrms_id.'</td> 
 						<td align="center">'.$result_draft->hrms_id.'</td> 
 					</tr>
@@ -188,45 +193,30 @@ function flat_wise_user_details($form, $form_state, $en_id = 0){
 						<td align="center">'.$result_draft->mobile_no.'</td> 
 					</tr>
 					<tr>
-						<td>Date of Birth </td>
-<<<<<<< HEAD
-<<<<<<< HEAD
-						<td>'.$result_tag->dob.'</td> 
-						<td>'.$result_draft->date_of_birth.'</td> 
-					</tr>
-		           	<tr>
-						<td>Flat Information</td>
-						<td colspan="2" style="text-align: center;">'.$flat_info.'</td> 
-						 
-					</tr>
-					<tr>
-						<td>License Information</td>
-						<td>'.$license_no_tag.'</td> 
-						<td>'.$license_no_draft.'</td> 
-					</tr>
-=======
-						<td>Nite hobe</td> 
-						<td>'.$result_draft->date_of_birth.'</td> 
-=======
-						<td align="center">'.$result_tag->dob.'</td> 
-						<td align="center">'.$result_draft->date_of_birth.'</td> 
->>>>>>> master
-					</tr>
-		           	<tr>
 						<td>License Information</td>
 						<td align="center">'.$license_no_tag.'</td> 
 						<td align="center">'.$license_no_draft.'</td> 
 					</tr>
 					<tr>
-						<td>Flat Information</td>
-						<td colspan="2" align="center">'.$flat_info.'</td>  
+						<td>License Issue Date</td>
+						<td align="center">'.$tag_license_issue_date.'</td> 
+						<td align="center">'.$draft_license_issue_date.'</td> 
 					</tr>
-<<<<<<< HEAD
-
->>>>>>> 0cb717b8a54072318052f16c41c9f9bccf5211e2
-=======
->>>>>>> master
-		          
+					<tr>
+						<td>License Expiry Date</td>
+						<td align="center">'.$tag_license_expiry_date.'</td> 
+						<td align="center">'.$draft_license_expiry_date.'</td> 
+					</tr>
+					<tr>
+						<td>Last License Renewal Date</td>
+						<td align="center">---</td> 
+						<td align="center">'.$draft_last_license_renewal_date.'</td> 
+					</tr>
+					<tr>
+						<td>Authorised / Unauthorised </td>
+						<td align="center">---</td> 
+						<td align="center">'.ucwords($result_draft->authorised_or_not).'</td> 
+					</tr>		          
 		        </table>
 		    </div>';
 
@@ -238,26 +228,25 @@ function flat_wise_user_details($form, $form_state, $en_id = 0){
 	$form['action_part_header'] = array(
 		'#type' => 'markup',
 		'#markup' => '<div class="card">
-						<div class="card-header bg-class">
+						<div class="card-header" style="background-color: #0a8bd6dc; color: white;">
 							Action Taken
 						</div>
 						<div class="card-body">'
 	);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> master
+
 	$info_array = array(
 		'name' => $result_tag->applicant_name,
 		'dob' => $result_tag->dob,
 		'mobile' => $result_tag->mobile_no,
-<<<<<<< HEAD
-		'hrmsid' => $result_tag->hrms_id
-=======
 		'hrmsid' => $result_tag->hrms_id,
-		'user_id' => $result_tag->uid
->>>>>>> master
+		'user_id' => $result_tag->uid,
+		'housing_existing_occupant_draft_id' => $result_draft->housing_existing_occupant_draft_id,
+		'license_no' => ($result_draft->license_no !='') ? $result_draft->license_no : $result_tag->license_no,
+		'license_issue_date' => ($result_draft->license_issue_date !='') ? $result_draft->license_issue_date : $result_tag->license_issue_date,
+		'license_expiry_date' => ($result_draft->license_expiry_date !='') ? $result_draft->license_expiry_date : $result_tag->license_expiry_date,
+		'authorised_or_not' => $result_draft->authorised_or_not
+		
 	);
 
 	$form['form_info_array'] = array(
@@ -265,18 +254,14 @@ function flat_wise_user_details($form, $form_state, $en_id = 0){
 		'#value' => serialize($info_array)
 	);
 
-<<<<<<< HEAD
-=======
->>>>>>> 0cb717b8a54072318052f16c41c9f9bccf5211e2
-=======
->>>>>>> master
 	$form['action'] = array(
 		'#prefix' => '<div class="col-md-6 mx-auto">',
 		'#suffix' => '</div>',
 		'#title' => t('Action'),
 		'#type' => 'select',
 		'#options' => array(''=>'-Select-','tagged'=>'Approved','reject'=>'Reject','pending'=>'Pending'),
-		'#attributes' => array('class' => array('form-control'))
+		'#attributes' => array('class' => array('form-control')),
+		'#required' => true
 	);
 	
 	$form['remarks'] = array(
@@ -284,7 +269,8 @@ function flat_wise_user_details($form, $form_state, $en_id = 0){
 		'#suffix' => '</div>',
 		'#title' => t('Remarks'),
 		'#type' => 'textarea',
-		'#attributes' => array('class' => array('form-control'))
+		'#attributes' => array('class' => array('form-control')),
+		'#required' => true
 	);
 
 	$form['flat_id_hidden'] = array(
@@ -319,81 +305,108 @@ function flat_wise_user_details_submit($form, $form_state){
 	$val = $form_state['values'];
 
 	$action_type = $val['action'];
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> master
+
 
 	$form_info_array = unserialize($val['form_info_array']);
 
 	// print_r($form_info_array); die;
 
-<<<<<<< HEAD
-=======
->>>>>>> 0cb717b8a54072318052f16c41c9f9bccf5211e2
-=======
->>>>>>> master
 	if($action_type=='tagged'){
 		// set uid in housing_applicant, housing_applicant_official_details, update tagging table with remarks
 		// housing_applicant
 		$housingAppliArr = array(
-<<<<<<< HEAD
-			'uid' => $user->uid,
-<<<<<<< HEAD
-			'applicant_name' => $form_info_array['name'],
-			'date_of_birth' => $form_info_array['dob'],
-			'mobile_no' => $form_info_array['mobile'],
-=======
-			'applicant_name' => '',
-			'date_of_birth' => '',
-			'mobile_no' => '',
->>>>>>> 0cb717b8a54072318052f16c41c9f9bccf5211e2
-=======
+
 			'uid' => $form_info_array['user_id'],
 			'applicant_name' => $form_info_array['name'],
-			'date_of_birth' => $form_info_array['dob'],
 			'mobile_no' => $form_info_array['mobile'],
->>>>>>> master
+
 		);
-		$housing_applicant_id = db_insert('housing_applicant')->fields($housingAppliArr)->execute();
+		// check for duplicate entry
+		$r1 = db_query("select 1 from housing_applicant where uid=:uid and mobile_no=:mobile_no",array(':uid'=>$form_info_array['user_id'],':mobile_no'=>$form_info_array['mobile']))->fetchObject();
+		if(empty($r1)){
+			$housing_applicant_id = db_insert('housing_applicant')->fields($housingAppliArr)->execute();
+		}
+				
 		// housing_applicant_official_details
 		$housingAppliOffic = array(
 			'uid' => $form_info_array['user_id'],
-			'housing_applicant_id' => $housing_applicant_id
+			'housing_applicant_id' => $housing_applicant_id,
+			'hrms_id' => $form_info_array['hrmsid']
 		);
-		$applicant_official_detail_id = db_insert('housing_applicant_official_detail')->fields($housingAppliOffic)->execute();
-
+		// check for duplicate entry
+		$r2 = db_query("select 1 from housing_applicant_official_detail where uid=:uid and hrms_id=:hrms_id",array(':uid'=>$form_info_array['user_id'],':hrms_id'=>$form_info_array['hrmsid']))->fetchObject();
+		if(empty($r2)){
+			$applicant_official_detail_id = db_insert('housing_applicant_official_detail')->fields($housingAppliOffic)->execute();
+		}
+		
 		// housing_online_application
 		$housing_online_applicationArr = array(
 			'applicant_official_detail_id' => $applicant_official_detail_id,
 			'status' => 'existing_occupant',
 			'is_backlog_applicant' => 2
 		);
-		$online_application_id = db_insert('housing_online_application')->fields($housing_online_applicationArr)->execute();
+		// check for duplicate entry
+		$r3 = db_query("select 1 from housing_online_application where applicant_official_detail_id=:applicant_official_detail_id",array(':applicant_official_detail_id'=>$applicant_official_detail_id))->fetchObject();
+		if(empty($r3)){
+			$online_application_id = db_insert('housing_online_application')->fields($housing_online_applicationArr)->execute();
 
-		// update for application_no generation
-		db_update('housing_online_application')->fields(array('application_no' => 'EO-'.trim(date('dmY')).'-'.$online_application_id))->condition('online_application_id', $online_application_id)->execute();
+			// update for application_no generation
+			db_update('housing_online_application')->fields(array('application_no' => 'EO-'.trim(date('dmY')).'-'.$online_application_id))->condition('online_application_id', $online_application_id)->execute();
+			
+			// housing_flat_occupant
+			$housing_flat_occupantArr = array(
+				'online_application_id' => $online_application_id,
+				'flat_id' => $val['flat_id_hidden'],
+			);
+			// check for duplicate entry
+			$r4 = db_query("select 1 from housing_flat_occupant where online_application_id=:online_application_id and flat_id=:flat_id",array(':online_application_id'=>$online_application_id,':flat_id'=>$val['flat_id_hidden']))->fetchObject();
+			if(empty($r4)){
+				$flat_occupant_id = db_insert('housing_flat_occupant')->fields($housing_flat_occupantArr)->execute();
+			}
 
-		// housing_flat_occupant
-		$housing_flat_occupantArr = array(
-			'online_application_id' => $online_application_id,
-			'flat_id' => $val['flat_id_hidden'],
-			'housing_existing_flat_occupant_id' => $user->uid
-		);
-		db_insert('housing_flat_occupant')->fields($housing_flat_occupantArr)->execute();
+			// update housing_flat by flat_id 
+			db_update('housing_flat')->fields(array('flat_status_id' => 2))->condition('flat_id', $val['flat_id_hidden'])->execute();
+			
+			// update housing_user_tagging by flat_id 
+			db_update('housing_user_tagging')->fields(array('flag' => 'tagged','housing_existing_occupant_draft_id'=>$form_info_array['housing_existing_occupant_draft_id'],'remarks'=>$val['remarks']))->condition('housing_user_tagging_id', $val['housing_user_tagging_id_hidden'])->execute();
 
-		// update housing_flat by flat_id 
-		db_update('housing_flat')->fields(array('flat_status_id' => 2))->condition('flat_id', $val['flat_id_hidden'])->execute();
-		
-		// update housing_user_tagging by flat_id 
-		db_update('housing_user_tagging')->fields(array('flag' => 'tagged'))->condition('housing_user_tagging_id', $val['housing_user_tagging_id_hidden'])->execute();
+			// add housing_occupant_license
+			$housing_occupant_license_arr = array(
+				'flat_occupant_id' => $flat_occupant_id,
+				'license_no' => $form_info_array['license_no'],
+				'license_issue_date' => $form_info_array['license_issue_date'],
+				'license_expiry_date' => $form_info_array['license_expiry_date'],
+				'authorised_or_not' => $form_info_array['authorised_or_not']
+			);
+			db_insert('housing_occupant_license')->fields($housing_occupant_license_arr)->execute();
+
+			// housing_new_allotment_application
+			$housing_new_allotment_application_arr = array(
+				'online_application_id' => $online_application_id
+			);
+			db_insert('housing_new_allotment_application')->fields($housing_new_allotment_application_arr)->execute();
+
+
+			drupal_set_message('User Successfully Tagged with Flat');
+			drupal_goto('flat-wise-user-info');
+		}else{
+			drupal_set_message('User Already Tagged, Please Check Once Again','error');
+		}		
 
 	}elseif($action_type=='pending'){
 		// update housing_user_tagging by flat_id 
-		db_update('housing_user_tagging')->fields(array('flag' => 'pending'))->condition('housing_user_tagging_id', $val['housing_user_tagging_id_hidden'])->execute();
+		db_update('housing_user_tagging')->fields(array('flag' => 'pending','remarks'=>$val['remarks']))->condition('housing_user_tagging_id', $val['housing_user_tagging_id_hidden'])->execute();
+		drupal_set_message('User Tagging is Awaiting Further Verification');
+		drupal_goto('flat-wise-user-info');
 
 	}elseif($action_type=='reject'){
 		// update housing_user_tagging by flat_id 
-		db_update('housing_user_tagging')->fields(array('flag' => 'reject', 'status' => 0))->condition('housing_user_tagging_id', $val['housing_user_tagging_id_hidden'])->execute();
+		db_update('housing_user_tagging')->fields(array('flag' => 'reject','remarks'=>$val['remarks'], 'status' => 0))->condition('housing_user_tagging_id', $val['housing_user_tagging_id_hidden'])->execute();
+		drupal_set_message('User Tagging is Rejected');
+		drupal_goto('flat-wise-user-info');
 	}
+}
+
+function tagged_user_list($status = ''){
+	echo $status; die;
 }
