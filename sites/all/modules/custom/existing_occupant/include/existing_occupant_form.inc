@@ -987,6 +987,7 @@
 			drupal_set_message('This User already exist','error');
 			drupal_goto('rhewise_flatlist');
 		} else { 
+			
 			$newUser['mail']   = strtolower(trim($form_state['values']['email']));
 			$newUser['status'] = 0;
 			
@@ -1156,13 +1157,13 @@
 			$result4 = $query4->execute();
 			$data4 = $result4->fetchObject();
 			
-			$license_issue_date = trim( implode('-', array_reverse(explode('/', $form_state['values']['dol']))));
+			$license_issue_date = !empty($form_state['values']['dol']) ? trim(implode('-', array_reverse(explode('/', $form_state['values']['dol'])))) : null; //added by dg04-08-2025
 			$licence_expiry_date = date('Y-m-d', strtotime($license_issue_date.'+3 years -1 day'));
 
 			$license_details_arr = array();
 			$license_details_arr['flat_occupant_id'] =  trim($data4->id);
-			$license_details_arr['license_issue_date'] = $license_issue_date;
-			$license_details_arr['license_expiry_date'] = $licence_expiry_date;
+			$license_details_arr['license_issue_date'] = $license_issue_date;  //added by dg04-08-2025
+			$license_details_arr['license_expiry_date'] = !empty($licence_expiry_date) ? trim(implode('-', array_reverse(explode('/', $licence_expiry_date)))) : null;  //added by dg04-08-2025
 			$license_details_arr['existing_occupant_license_no'] = trim($form_state['values']['license_no']);
 			$license_details_arr['authorised_or_not'] = trim($form_state['values']['authorised_or_not']);
 

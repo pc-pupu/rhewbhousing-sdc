@@ -1239,10 +1239,7 @@
 		            <th style="background-color:#00000000">License Issue Date :</th>
 		            <td>'.(isset($data->license_issue_date) ? $data->license_issue_date : 'Not Avalaible').'</td>
 		          </tr>
-		          <tr>
-		            <th style="background-color:#00000000">License Expiry Date :</th>
-		            <td>'.(isset($data->license_expiry_date) ? $data->license_expiry_date : 'Not Avalaible').'</td>
-		          </tr>
+		          
 		          <tr>
 		            <th style="background-color:#00000000">Occupant Status :</th>
 		            <td>'.(isset($data->authorised_or_not) ? $data->authorised_or_not : 'Not Avalaible').'</td>

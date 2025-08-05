@@ -334,7 +334,7 @@ function get_vacancy_on_preference($flat_type_id, $online_application_id, $distr
 
     return $result;
 }
-function get_vacancy_details_new($flat_type_id, $district_code = 0) {
+function get_vacancy_details_new($flat_type_id, $district_code = 0) {    	/*//added by dg 9th floor 05-08-2025*/
     $result = db_query("SELECT t1.* FROM housing_flat AS t1
     INNER JOIN housing_estate AS t2 ON t1.estate_id = t2.estate_id
     INNER JOIN housing_district AS t3 ON t2.district_code = t3.district_code
@@ -350,8 +350,9 @@ function get_vacancy_details_new($flat_type_id, $district_code = 0) {
         when t1.floor = 'Sixth' then 6
         when t1.floor = 'Seventh' then 7
         when t1.floor = 'Eighth' then 8
+        when t1.floor = 'Ninth' then 9
        
-        when t1.floor = 'Ground' then 9
+        when t1.floor = 'Ground' then 0
         when t1.floor = 'Top' then 10
         END, 
         t1.floor");
@@ -557,3 +558,4 @@ function update_housing_special_recommendation($online_application_id){
     
      
 }
+
